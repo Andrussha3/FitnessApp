@@ -91,26 +91,6 @@ app/
 
 Если release-ключ недоступен, локальная release-сборка автоматически fallback-ится на debug-подпись.
 
-## GitHub Actions Release
-
-Добавлен workflow `.github/workflows/android-release.yml`.
-
-Он умеет:
-
-- собирать release APK вручную через `workflow_dispatch`
-- собирать и публиковать APK при push тега вида `v*`
-- прикладывать APK как artifact
-- публиковать APK в GitHub Release для tag-сборок
-
-Нужно добавить в GitHub Secrets:
-
-- `MYAPP_UPLOAD_KEYSTORE_BASE64`
-- `MYAPP_UPLOAD_KEY_ALIAS`
-- `MYAPP_UPLOAD_STORE_PASSWORD`
-- `MYAPP_UPLOAD_KEY_PASSWORD`
-
-Для `MYAPP_UPLOAD_KEYSTORE_BASE64` нужно закодировать keystore в base64.
-
 ## Примечания
 
 - Приложение работает без сервера и без интернета.
