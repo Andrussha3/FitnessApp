@@ -1,8 +1,8 @@
 # Gym Log
 
 Нативное Android-приложение на Kotlin для полностью офлайн-учета тренировок в спортзале.
-<img width="608" height="1280" alt="image" src="https://github.com/user-attachments/assets/e2ce7fb4-8a49-4da1-916a-85aa26229bd6" />
 
+<img width="203" height="427" alt="image" src="https://github.com/user-attachments/assets/e2ce7fb4-8a49-4da1-916a-85aa26229bd6" />
 
 ## Стек
 
