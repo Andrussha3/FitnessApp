@@ -29,6 +29,9 @@ jobs:
         env:
           SIGNING_KEYSTORE_BASE64: ${{ secrets.MYAPP_UPLOAD_KEYSTORE_BASE64 }}
 
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
       - name: Build release APK
         run: ./gradlew assembleRelease
         env:
