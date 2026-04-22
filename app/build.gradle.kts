@@ -1,9 +1,26 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
 }
+
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
+}
+
+fun signingProp(name: String): String? = System.getenv(name) ?: keystoreProperties.getProperty(name)
+
+val releaseStoreFile = signingProp("MYAPP_UPLOAD_STORE_FILE")
+val releaseKeyAlias = signingProp("MYAPP_UPLOAD_KEY_ALIAS")
+val releaseStorePassword = signingProp("MYAPP_UPLOAD_STORE_PASSWORD")
+val releaseKeyPassword = signingProp("MYAPP_UPLOAD_KEY_PASSWORD")
+val hasReleaseSigning = !releaseStoreFile.isNullOrBlank() && !releaseKeyAlias.isNullOrBlank() && !releaseStorePassword.isNullOrBlank() && !releaseKeyPassword.isNullOrBlank()
 
 android {
     namespace = "com.example.fitnesapp"
@@ -24,12 +41,20 @@ android {
 
     signingConfigs {
         getByName("debug")
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = rootProject.file(releaseStoreFile!!)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (hasReleaseSigning) signingConfigs.getByName("release") else signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
