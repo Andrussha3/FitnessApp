@@ -181,7 +181,10 @@ fun ActiveWorkoutScreen(
             onDismissRequest = { replacing = false },
             title = { Text("Заменить упражнение") },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     state.replacements.sortedBy { if (it.muscleGroupTag == exercise?.muscleGroupTag) 0 else 1 }.forEach { item ->
                         Text(
                             text = "${item.name} • ${item.muscleGroup}",
@@ -202,7 +205,10 @@ fun ActiveWorkoutScreen(
             onDismissRequest = { choosingExercise = false },
             title = { Text("Упражнения тренировки") },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     state.exerciseStatuses.forEachIndexed { index, item ->
                         val status = when {
                             item.id == exercise?.id -> "Текущее"

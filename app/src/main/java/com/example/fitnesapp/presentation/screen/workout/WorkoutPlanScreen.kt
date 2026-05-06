@@ -3,6 +3,8 @@ package com.example.fitnesapp.presentation.screen.workout
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -88,7 +90,10 @@ fun WorkoutPlanScreen(viewModel: WorkoutPlanViewModel, onBack: () -> Unit) {
             onDismissRequest = { applyingTemplate = false },
             title = { Text("Готовые программы") },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(
+                    modifier = androidx.compose.ui.Modifier.verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     state.templates.forEach { template ->
                         TextButton(onClick = { viewModel.applyTemplate(template); applyingTemplate = false }, modifier = androidx.compose.ui.Modifier.fillMaxWidth()) {
                             Text(if (template.isRecommended) "${template.name} • Рекомендуемый" else template.name)
@@ -106,7 +111,10 @@ fun WorkoutPlanScreen(viewModel: WorkoutPlanViewModel, onBack: () -> Unit) {
             onDismissRequest = { copyingDay = null },
             title = { Text("Копировать день") },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(
+                    modifier = androidx.compose.ui.Modifier.verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     (1..7).filter { it != source.dayOfWeek }.forEach { day ->
                         TextButton(onClick = { viewModel.copyDay(source.dayOfWeek, day, true); copyingDay = null }) { Text(day.dayLabel()) }
                     }
@@ -128,7 +136,10 @@ private fun DayEditorDialog(viewModel: WorkoutPlanViewModel, day: WorkoutPlanDay
         onDismissRequest = onDismiss,
         title = { Text(day.dayOfWeek.dayLabel()) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Column(
+                modifier = androidx.compose.ui.Modifier.verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text("День отдыха")
                     Switch(checked = isRest, onCheckedChange = { isRest = it })
@@ -190,7 +201,10 @@ private fun DayEditorDialog(viewModel: WorkoutPlanViewModel, day: WorkoutPlanDay
             onDismissRequest = { addExercise = false },
             title = { Text("Добавить упражнение") },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(
+                    modifier = androidx.compose.ui.Modifier.verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     state.exercises.forEach { exercise ->
                         TextButton(onClick = {
                             items += viewModel.buildExercise(exercise, day.dayOfWeek, items.size + 1)
